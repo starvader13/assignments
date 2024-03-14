@@ -17,5 +17,47 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+const port = process.env.PORT || 3000
+const dir="./files"
+
+app.get("/files", (req, res)=>{
+
+	fs.readdir(dir, (err, files)=>{
+		if(err){
+			return res.status(500).send("Reading directory does not exist") ;
+		}
+		
+		const seperateFileDirectory = files.reduce((acc, file)=>{
+			if((fs.lstatSync(path.resolve(dir, file)).isDirectory())){
+				acc.dirName.push(file);
+			}else{
+				acc.fileName.push(file);
+			}
+			return acc;
+		}, {fileName: [], dirName: []});
+
+		res.status(200).json({
+			FileName: seperateFileDirectory.fileName,
+		})
+	})
+})
+
+app.get("/file/:filename", (req, res)=>{
+	const fileName = dir.concat("/").concat(req.params.filename);
+	fs.readFile(fileName, "utf-8", (err, data)=>{
+		if(err){
+			return res.status(404).send("File not found");
+		}
+		res.status(200).send(data)
+	})
+})
+
+app.get("/*", (req, res)=>{
+	res.status(404).send("Route not found");
+})
+
+// app.listen(port, ()=>{
+// 	console.log(`Server is listening at port:${port}`);
+// });
 
 module.exports = app;
