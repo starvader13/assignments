@@ -1,4 +1,4 @@
-## Create a course selling website
+3## Create a course selling website
 
 ### Description
 You need to implement a course selling app. Make sure you setup your own mongodb instance before starting. 

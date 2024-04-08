@@ -1,4 +1,4 @@
-const app = require("../02-ratelimitter");
+const { app, stopRateLimiterInterval } = require("../02-ratelimitter");
 
 const request = require('supertest');
 const assert = require('assert');
@@ -40,6 +40,9 @@ describe('GET /user', function () {
           done();
         });
       }, 2000);
+  });
+  afterAll(() => {
+    stopRateLimiterInterval();
   });
 });
 
