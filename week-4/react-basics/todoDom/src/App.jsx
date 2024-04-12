@@ -13,8 +13,8 @@ function App() {
         const descriptionDiv = document.createElement('div');
         const button = document.createElement('button');
 
-        button.setAttribute('onClick', `markAsDone(${globalId})`)
-        outerDiv.setAttribute('id', String(globalId));
+        button.addEventListener('click', () => markAsDone(globalId));
+        outerDiv.setAttribute('id', globalId);
 
         titleDiv.innerHTML=`<b>Title: </b> ${title}`;
         descriptionDiv.innerHTML=`<b>Description: </b> ${description}`;
@@ -26,6 +26,11 @@ function App() {
 
         const parent = document.getElementById('todos');
         parent.appendChild(outerDiv);
+    }
+
+    function markAsDone(todoId){
+        const parent = document.getElementById(todoId);
+        parent.children[2].innerText = "Done";
     }
 
     return (
